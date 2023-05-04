@@ -5,6 +5,7 @@ import styles from "../../styles/styles";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { server } from '../../server';
+import { toast } from 'react-toastify';
 
 const Signup = () => {
     const [name, setName] = useState("");
@@ -32,12 +33,14 @@ const Signup = () => {
 
         axios.post(`${server}/user/create-user`, newForm, config)
         .then((res) => {
-            console.log(res);
-            if(res.data.success === true) {
-                navigate("/")
-            }
+            toast.success(res.data.message);
+            // Clear input field
+            setName("");
+            setEmail("");
+            setPassword("");
+            setAvatar();
         }).catch((err) => {
-            console.log(err);
+            toast.error(err.response.data.message);
         })
     };
 
