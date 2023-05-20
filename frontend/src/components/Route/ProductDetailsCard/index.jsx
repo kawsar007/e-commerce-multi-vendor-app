@@ -6,7 +6,6 @@ import { AiFillHeart, AiOutlineHeart, AiOutlineMessage, AiOutlineShoppingCart } 
 const ProductDetailsCard = ({ setOpen, data }) => {
     const [count, setCount] = useState(1);
     const [click, setClick] = useState(false);
-    const [select, setSelect] = useState(false);
 
     const handleMessageSubmit = () => { };
 
@@ -29,6 +28,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                             <RxCross1 size={30} className="absolute right-3 top-3 z-50" onClick={() => setOpen(false)} />
 
                             <div className="block w-full 800px:flex">
+                                {/* Modal Left Side Start */}
                                 <div className="w-full 800px:w-[50%]">
                                     <img src={data.image_Url[0].url} alt="" />
                                     <div className="flex">
@@ -53,7 +53,9 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                                         ({data.total_sell}) Sold out
                                     </h5>
                                 </div>
+                                {/* Modal Left Side End */}
 
+                                {/* Modal Right Side Start */}
                                 <div className="w-full 800px:w-[50%] pt-5 pl-[5px] pr-[5px]">
                                     <h1 className={`${styles.productTitle} text-[20px]`}>
                                         {data?.name}
@@ -113,6 +115,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                                         </span>
                                     </div>
                                 </div>
+                                {/* Modal Right Side End */}
 
 
                             </div>
