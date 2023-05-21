@@ -3,7 +3,7 @@ import "./App.css";
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { LoginPage, SignupPage, ActivationPage, HomePage } from './Routes';
+import { LoginPage, SignupPage, ActivationPage, HomePage, ProductsPage, BestSellingPage, EventsPage, FaqPage } from './Routes';
 import axios from 'axios';
 import { server } from './server';
 import Store from "./redux/store";
@@ -14,8 +14,9 @@ const App = () => {
     Store.dispatch(loadUser())
     // axios.get(`${server}/user/getuser`,{withCredentials:true}).then((res) => {
     //   toast.success(res.data.message)
+    //   console.log(res.data?.message, "Load User");
     // }).catch((err) => {
-    //     toast.error(err.response?.data.message);
+    //   toast.error(err.response?.data.message);
     // })
   }, []);
 
@@ -26,6 +27,10 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/activation/:activation_token" element={<ActivationPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/best-selling" element={<BestSellingPage />} />
+        <Route path="/events" element={<EventsPage />} /> 
+        <Route path="/faq" element={<FaqPage />} />
       </Routes>
       <ToastContainer
         position="top-right"
