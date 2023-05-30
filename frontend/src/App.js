@@ -8,8 +8,11 @@ import axios from 'axios';
 import { server } from './server';
 import Store from "./redux/store";
 import { loadUser } from './redux/actions/user';
+import { useSelector } from 'react-redux';
 
 const App = () => {
+  const { loading } = useSelector((state) => state.user);
+  
   useEffect(() => {
     Store.dispatch(loadUser())
     // axios.get(`${server}/user/getuser`,{withCredentials:true}).then((res) => {
@@ -21,7 +24,12 @@ const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
+  <>
+    {
+      loading ? (
+        null
+      ): (
+          <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -44,7 +52,10 @@ const App = () => {
         pauseOnHover
         theme="dark"
       />
-    </BrowserRouter>
+       </BrowserRouter>
+      )
+      }
+    </>
   )
 }
 

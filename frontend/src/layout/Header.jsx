@@ -12,13 +12,11 @@ import { useSelector } from "react-redux";
 import { backend_url } from '../server';
 
 const Header = ({ activeHeading }) => {
-  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { isAuthenticated, user, loading } = useSelector((state) => state.user);
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
   const [dropDown, setDropDown] = useState(false);
-
-  console.log(user, "USER");
 
   const handleSearchChange = (e) => {
     const text = e.target.value;
@@ -39,6 +37,7 @@ const Header = ({ activeHeading }) => {
   })
 
   return (
+
     <>
       <div className={`${styles.section}`}>
         <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
@@ -175,6 +174,7 @@ const Header = ({ activeHeading }) => {
         </div>
       </div>
     </>
+
   )
 }
 

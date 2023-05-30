@@ -135,7 +135,8 @@ router.post("/login-user", catchAsyncErrors( async(req,res,next) => {
 // Load user
 router.get("/getuser", isAuthenticated, catchAsyncErrors(async (req, res, next) => {
     try {
-       const user = await User.findById(req.user.id);
+        const userId = req.user.id;        
+        const user = await User.findById(userId);
 
        if(!user) {
         return next(new ErrorHandler("User doesn't exists!", 400));
