@@ -3,7 +3,7 @@ import "./App.css";
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { LoginPage, SignupPage, ActivationPage, HomePage, ProductsPage, BestSellingPage, EventsPage, FaqPage, ProductDetailPage } from './Routes';
+import { LoginPage, SignupPage, ActivationPage, HomePage, ProductsPage, BestSellingPage, EventsPage, FaqPage, ProductDetailPage, ProfilePage } from './Routes';
 import axios from 'axios';
 import { server } from './server';
 import Store from "./redux/store";
@@ -40,6 +40,7 @@ const App = () => {
         <Route path="/best-selling" element={<BestSellingPage />} />
         <Route path="/events" element={<EventsPage />} /> 
         <Route path="/faq" element={<FaqPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
       <ToastContainer
         position="top-right"
