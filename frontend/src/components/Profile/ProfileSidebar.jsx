@@ -1,17 +1,38 @@
 import React from "react";
-import { AiOutlineCreditCard, AiOutlineLogin, AiOutlineMessage } from "react-icons/ai";
+import {
+  AiOutlineCreditCard,
+  AiOutlineLogin,
+  AiOutlineMessage,
+} from "react-icons/ai";
+import axios from "axios";
+import { server } from "../../server";
+import { toast } from "react-toastify";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { RxPerson } from "react-icons/rx";
 import { TbAddressBook } from "react-icons/tb";
 import {
-    MdOutlineAdminPanelSettings,
-    MdOutlinePassword,
-    MdOutlineTrackChanges,
-  } from "react-icons/md";
+  MdOutlineAdminPanelSettings,
+  MdOutlinePassword,
+  MdOutlineTrackChanges,
+} from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const ProfileSidebar = ({ active, setActive }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    axios
+      .get(`${server}/user/logout`, { withCredentials: true })
+      .then((res) => {
+        toast.success(res?.data?.message);
+        window.location.reload(true);
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log(error.response?.data?.message);
+      });
+  };
+
   return (
     <div className="w-full bg-white shadow-sm rounded-[10px] p-4 pt-8">
       <div
@@ -86,14 +107,13 @@ const ProfileSidebar = ({ active, setActive }) => {
 
       <div
         className="flex items-center cursor-pointer w-full mb-8"
-        onClick={() => setActive(8)}
+        onClick={() => setActive(8) || logoutHandler()}
       >
         <AiOutlineLogin size={20} color={active === 8 ? "red" : ""} />
         <span className={`pl-3 ${active === 8 ? "text-[red]" : ""}`}>
           Logout
         </span>
       </div>
-
     </div>
   );
 };
