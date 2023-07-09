@@ -88,7 +88,7 @@ router.post("/activation", catchAsyncError( async(req, res, next) => {
         return next(new ErrorHandler("User already exists", 400));
     }
 
-    user = User.create({
+    user = await User.create({
         name,
         email,
         avatar,
