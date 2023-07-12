@@ -11,7 +11,10 @@ const ErrorHandler = require("../utils/ErrorHandler");
 // const sendShopToken = require("../utils/shopToken");
 
 const {upload} = require("../multer");
+const sendToken = require("../utils/jwt.token");
+const sendShopToken = require("../utils/shopToken");
 
+// CREATE SHOP
 router.post("/create-shop", upload.single("file"), async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -107,11 +110,61 @@ router.post(
         phoneNumber,
       });
 
-      sendToken(seller, 201, res);
+      sendShopToken(seller, 201, res);
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }
   })
 );
+
+// LOGIN SHOP
+
+router.post("/login-shop", catchAsyncErrors( async(req,res,next) => {
+  try {
+      const {email, password} = req.body;
+
+      if(!email || !password){
+          return next(new ErrorHandler("Please provide the all fields!", 400));
+      }
+
+      const user = await Shop.findOne({email}).select("+password");
+
+      if(!user) {
+          return next (new ErrorHandler("User dosen't exists!", 400));
+      }
+
+      const isPasswordValid = await user.comparePassword(password);
+
+      if(!isPasswordValid) {
+          return next(
+              new ErrorHandler("Please provide the correct information", 400)
+          );
+      }
+
+      sendShopToken(user, 201, res);
+
+  } catch (error) {
+      return next(new ErrorHandler(error.message, 500))
+  }
+}));
+
+// Load Shop
+router.get("/getSeller", isSeller , catchAsyncErrors(async (req, res, next) => {
+  try {
+      const sellerId = req.seller.id;        
+      const seller = await Shop.findById(sellerId);
+
+     if(!seller) {
+      return next(new ErrorHandler("Seller doesn't exists!", 400));
+     }
+
+     res.status(200).json({
+      success: true,
+      seller,
+     });
+  } catch(error){
+      return next(new ErrorHandler(error.message, 500));
+  }
+}));
 
 module.exports = router;

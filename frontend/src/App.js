@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "./App.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import {
   LoginPage,
   SignupPage,
@@ -15,31 +15,41 @@ import {
   ProductDetailPage,
   ProfilePage,
   ShopCreatePage,
-  SellerActivationPage
+  SellerActivationPage,
+  LoginShopPage,
 } from "./Routes";
 import axios from "axios";
 import { server } from "./server";
 import Store from "./redux/store";
-import { loadUser } from "./redux/actions/user";
+import { loadSeller, loadUser } from "./redux/actions/user";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
+import { ShopHomePage } from "./ShopRoutes";
+import SellerProtectedRoute from "./protectedRoute/SellerProtectedRoute";
 
 const App = () => {
   const { loading, isAuthenticated } = useSelector((state) => state.user);
+  const { isLoading, isSeller } = useSelector((state) => state.seller);
+  // const navigate = useNavigate();
 
   useEffect(() => {
     Store.dispatch(loadUser());
+    Store.dispatch(loadSeller());
     // axios.get(`${server}/user/getuser`,{withCredentials:true}).then((res) => {
     //   toast.success(res.data.message)
     //   console.log(res.data?.message, "Load User");
     // }).catch((err) => {
     //   toast.error(err.response?.data.message);
     // })
+
+    // if(isSeller) {
+    //    navigate(`/shop/${seller._id}`);
+    // }
   }, []);
 
   return (
     <>
-      {loading ? null : (
+      {loading || isLoading ? null : (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -66,7 +76,17 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+            {/* Shop Routes */}
             <Route path="/shop-create" element={<ShopCreatePage />} />
+            <Route path="/shop-login" element={<LoginShopPage />} />
+            <Route
+              path="/shop/:id"
+              element={
+                <SellerProtectedRoute isSeller={isSeller}>
+                  <ShopHomePage />
+                </SellerProtectedRoute>
+              }
+            />
           </Routes>
           <ToastContainer
             position="top-right"

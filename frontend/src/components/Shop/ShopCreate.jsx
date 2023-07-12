@@ -141,7 +141,7 @@ const CreateShop = () => {
                 />
               </div>
             </div>
-
+ 
             <div>
               <label
                 htmlFor="email"
@@ -238,7 +238,7 @@ const CreateShop = () => {
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Already have an account?</h4>
               <Link to="/shop-login" className="text-blue-600 pl-2">
-                Sign in
+                Sign in shop
               </Link>
             </div>
           </form>
