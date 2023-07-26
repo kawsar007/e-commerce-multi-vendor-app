@@ -21,7 +21,7 @@ const ShopLoginUi = () => {
             password,
         }, { withCredentials: true }).then((res) => {
             toast.success('Your Shop Login Success!');
-            navigate('/');
+            navigate('/dashboard');
             window.location.reload(true);
         }).catch((err) => {
             toast.error(err.response.data.message);
