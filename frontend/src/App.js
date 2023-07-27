@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   LoginPage,
   SignupPage,
@@ -18,11 +18,10 @@ import {
   SellerActivationPage,
   LoginShopPage,
 } from "./routes/Routes";
-import axios from "axios";
-import { server } from "./server";
+
 import Store from "./redux/store";
 import { loadSeller, loadUser } from "./redux/actions/user";
-import { ShopDashboardPage, ShopHomePage } from "./routes/ShopRoutes";
+import { ShopDashboardPage, ShopCreateProductPage, ShopHomePage } from "./routes/ShopRoutes";
 import SellerProtectedRoute from "./protectedRoute/SellerProtectedRoute";
 import ProtectedRoute from "./protectedRoute/ProtectedRoute";
 
@@ -88,6 +87,14 @@ const App = () => {
               element={
                 <SellerProtectedRoute>
                   <ShopDashboardPage />
+                </SellerProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard-create-product"
+              element={
+                <SellerProtectedRoute>
+                  <ShopCreateProductPage />
                 </SellerProtectedRoute>
               }
             />
