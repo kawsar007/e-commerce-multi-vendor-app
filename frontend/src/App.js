@@ -21,7 +21,7 @@ import {
 
 import Store from "./redux/store";
 import { loadSeller, loadUser } from "./redux/actions/user";
-import { ShopDashboardPage, ShopCreateProductPage, ShopHomePage } from "./routes/ShopRoutes";
+import { ShopDashboardPage, ShopCreateProductPage, ShopHomePage, ShopAllProductPage } from "./routes/ShopRoutes";
 import SellerProtectedRoute from "./protectedRoute/SellerProtectedRoute";
 import ProtectedRoute from "./protectedRoute/ProtectedRoute";
 
@@ -98,7 +98,16 @@ const App = () => {
                 </SellerProtectedRoute>
               }
             />
+            <Route
+              path="/dashboard-products"
+              element={
+                <SellerProtectedRoute>
+                  <ShopAllProductPage />
+                </SellerProtectedRoute>
+              }
+            />
           </Routes>
+          
           <ToastContainer
             position="top-right"
             autoClose={5000}
