@@ -5,7 +5,7 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const Shop = require("../model/shop");
 const { upload } = require("../multer");
-const { isSeller } = require("../middleware/auth");
+const { isSeller, isAuthenticated } = require("../middleware/auth");
 
 // create product
 router.post(

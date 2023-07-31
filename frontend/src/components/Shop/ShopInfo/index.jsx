@@ -1,12 +1,34 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { backend_url } from "../../../server";
+import { backend_url, server } from "../../../server";
 import styles from "../../../styles/styles";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ShopInfo = ({ isOwner }) => {
+  const navigate = useNavigate();
   const { seller } = useSelector((state) => state.seller);
 
-  const logoutHandler = () => {};
+  const logoutHandler = async () => {
+    axios.get(`${server}/shop/logout`, {
+      withCredentials: true,
+    });
+    window.location.reload();
+  };
+
+  // const logoutHandler = () => {
+  //   axios
+  //     .get(`${server}/shop/logout`, { withCredentials: true })
+  //     .then((res) => {
+  //       toast.success(res?.data?.message);
+  //       window.location.reload(true);
+  //       navigate("/");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response?.data?.message);
+  //     });
+  // };
 
   return (
     <div>
@@ -45,12 +67,15 @@ const ShopInfo = ({ isOwner }) => {
       </div>
       {isOwner && (
         <div className="py-3 px-4">
-            <div className={`${styles.button} !w-full !h-[42px] !rounded-[5px]`}>
-               <span className="text-white">Edit Shop</span>
-            </div>
-            <div onClick={logoutHandler} className={`${styles.button} !w-full !h-[42px] !rounded-[5px]`}>
-               <span className="text-white">Log Out</span>
-            </div>
+          <div className={`${styles.button} !w-full !h-[42px] !rounded-[5px]`}>
+            <span className="text-white">Edit Shop</span>
+          </div>
+          <div
+            onClick={logoutHandler}
+            className={`${styles.button} !w-full !h-[42px] !rounded-[5px]`}
+          >
+            <span className="text-white">Log Out</span>
+          </div>
         </div>
       )}
     </div>
