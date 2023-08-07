@@ -152,7 +152,7 @@ router.get("/getuser", isAuthenticated, catchAsyncErrors(async (req, res, next) 
 }));
 
 // Logout user
-router.get("/logout", isAuthenticated, catchAsyncErrors(async (req, res, next) => {
+router.get("/logout", catchAsyncErrors(async (req, res, next) => {
    try {
     res.cookie("token", null, {
         expires: new Date(Date.now()),

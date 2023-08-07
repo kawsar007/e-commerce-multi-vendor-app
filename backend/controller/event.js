@@ -1,19 +1,18 @@
 const express = require("express");
-const router = express.Router();
-const Product = require("../model/product");
+const Event = require("../model/event");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const ErrorHandler = require("../utils/ErrorHandler");
 const Shop = require("../model/shop");
+const ErrorHandler = require("../utils/ErrorHandler");
 const { upload } = require("../multer");
-const { isSeller, isAuthenticated } = require("../middleware/auth");
+const { isSeller } = require("../middleware/auth");
+const router = express.Router();
 
 // create product
 router.post(
-  "/create-product",
+  "/create-event",
   upload.array("images"),
   catchAsyncErrors(async (req, res, next) => {
     try {
-      console.log(req.body, "Product Req.body");
       const shopId = req.body.shopId;
       const shop = await Shop.findById(shopId);
       if (!shop) {
@@ -21,15 +20,15 @@ router.post(
       } else {
         const files = req.files;
         const imageUrls = files.map((file) => `${file.filename}`);
-        const productData = req.body;
-        productData.images = imageUrls;
-        productData.shop = shop;
+        const eventData = req.body;
+        eventData.images = imageUrls;
+        eventData.shop = shop;
 
-        const product = await Product.create(productData);
+        const event = await Event.create(eventData);
 
         res.status(201).json({
           success: true,
-          product,
+          event,
         });
       }
     } catch (error) {
@@ -40,13 +39,13 @@ router.post(
 
 //  get all products of a shop
 router.get(
-  "/get-all-products-shop/:id",
+  "/get-all-events/:id",
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const products = await Product.find({ shopId: req.params.id });
+      const events = await Event.find({ shopId: req.params.id });
       res.status(200).json({
         success: true,
-        products,
+        events,
       });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
@@ -56,22 +55,22 @@ router.get(
 
 // delete product of a shop;
 router.delete(
-  "/delete-shop-product/:id",
+  "/delete-shop-event/:id",
   isSeller,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const productId = req.params.id;
-      const product = await Product.findByIdAndDelete(productId);
+      const eventId = req.params.id;
+      const event = await Event.findByIdAndDelete(eventId);
 
-      if (!product) {
+      if (!event) {
         return next(
-          new ErrorHandler("Product not found with this product!", 500)
+          new ErrorHandler("Event not found with this id!", 500)
         );
       }
 
       res.status(200).json({
         success: true,
-        message: "Product deleted successfully!",
+        message: "Event deleted successfully!",
       });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
