@@ -13,6 +13,7 @@ router.post(
   upload.array("images"),
   catchAsyncErrors(async (req, res, next) => {
     try {
+      console.log(req.body, "Product Req.body");
       const shopId = req.body.shopId;
       const shop = await Shop.findById(shopId);
       if (!shop) {
