@@ -20,14 +20,14 @@ export const eventReducer = createReducer(initialState, {
   },
 
   // get all events of shop
-  getAllEventsShopRequest: (state) => {
+  getAllEventsRequest: (state) => {
     state.isLoading = true;
   },
-  getAllEventsShopSuccess: (state, action) => {
+  getAllEventsSuccess: (state, action) => {
     state.isLoading = false;
     state.events = action.payload;
   },
-  getAllEventsShopFailed: (state, action) => {
+  getAllEventsFailed: (state, action) => {
     state.isLoading = false;
     state.error = action.payload;
   },
