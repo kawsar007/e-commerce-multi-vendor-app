@@ -37,7 +37,7 @@ router.post(
   })
 );
 
-//  get all products of a shop
+//  get all events of a shop
 router.get(
   "/get-all-events/:id",
   catchAsyncErrors(async (req, res, next) => {
@@ -53,13 +53,27 @@ router.get(
   })
 );
 
-// delete product of a shop;
+// delete event of a shop;
 router.delete(
   "/delete-shop-event/:id",
   isSeller,
   catchAsyncErrors(async (req, res, next) => {
     try {
       const eventId = req.params.id;
+      const eventData = await Event.findById(eventId);
+
+      eventData.images.forEach((imageUrl) => {
+        const imageName = imageUrl;
+        const filePath = `uploads/${imageName}`;
+
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.log(err);
+          }
+        });
+
+      });
+
       const event = await Event.findByIdAndDelete(eventId);
 
       if (!event) {
