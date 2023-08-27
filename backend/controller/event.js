@@ -6,6 +6,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const { upload } = require("../multer");
 const { isSeller } = require("../middleware/auth");
 const router = express.Router();
+const fs = require("fs");
 
 // create product
 router.post(

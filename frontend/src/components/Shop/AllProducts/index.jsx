@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { deleteProduct, getAllProductsShop } from "../../../redux/actions/product";
 import { Button } from "@material-ui/core";
@@ -8,11 +8,14 @@ import { Link } from "react-router-dom";
 import Loader from "../../../layout/Loader";
 import { DataGrid } from "@material-ui/data-grid";
 import { toast } from "react-toastify";
+import styles from "../../../styles/styles";
 
 const AllProducts = () => {
   const dispatch = useDispatch();
   const { products, isLoading } = useSelector((state) => state.products);
   const { seller } = useSelector((state) => state.seller);
+
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     dispatch(getAllProductsShop(seller._id));
